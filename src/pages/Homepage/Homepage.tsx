@@ -4,8 +4,8 @@ export interface IHomepageProps {}
 
 function Homepage(props: IHomepageProps) {
   return (
-    <div className="flex-fill container d-flex flex-column p-20">
-      Bienvenue sur PhotoSite
+    <div>
+      <h1>Bienvenue sur PhotoSite</h1>
     </div>
   );
 }
