@@ -24,9 +24,16 @@ function Header(props: IHeaderProps) {
             <span>Galerie photos</span>
           </button>
         </Link>
-        <button className="mr-15 btn btn-reverse-primary">
-          <span>Concours</span>
-        </button>
+        <Link to="/outings">
+          <button className="mr-15 btn btn-reverse-primary">
+            <span>Sorties</span>
+          </button>
+        </Link>
+        <Link to="/users">
+          <button className="mr-15 btn btn-reverse-primary">
+            <span>Membres</span>
+          </button>
+        </Link>
         <Link to="/login">
           <button className="btn btn-primary">Connexion</button>
         </Link>

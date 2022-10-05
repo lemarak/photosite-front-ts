@@ -6,6 +6,10 @@ import Gallery from "./pages/Gallery/Gallery";
 import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 
+import "./conf/axios-conf";
+import Outings from "./pages/Outings/Outings";
+import Users from "./pages/Users/Users";
+
 function App() {
   return (
     <div className={`d-flex flex-column ${styles.appContainer}`}>
@@ -14,6 +18,8 @@ function App() {
         <Routes>
           <Route index element={<Homepage />} />
           <Route path="gallery" element={<Gallery />} />
+          <Route path="outings" element={<Outings />} />
+          <Route path="users" element={<Users />} />
           <Route path="login" element={<Login />} />
         </Routes>
       </div>
