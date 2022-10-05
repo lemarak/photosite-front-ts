@@ -2,24 +2,27 @@ import { useState } from "react";
 import { IUser } from "../../interfaces";
 import { useFetchUsers } from "../../hooks";
 import styles from "./Users.module.scss";
+import Loading from "../../components/Loading/Loading";
 
 export interface IUsersProps {}
 
 function Users(props: IUsersProps) {
-  const [[users, setUsers], isLoading, error] = useFetchUsers();
+  const [[users, setUsers], countUsers, isLoading, error] = useFetchUsers();
   console.log("users", users);
   return (
     <>
       <h1 className="my-30">
-        Liste des membres <small>({users.length} membres)</small>
+        Liste des membres <small>({countUsers} membres)</small>
       </h1>
       {error && <span>{error}</span>}
       <ul>
-        {isLoading && !users.length ? (
-          <h2>Loading...</h2>
+        {isLoading && countUsers ? (
+          <Loading />
         ) : (
           users.map((user: IUser) => (
-            <li key={user._id}>{user.account.username}</li>
+            <li key={user._id}>
+              <h2>{user.account.username}</h2>
+            </li>
           ))
         )}
       </ul>

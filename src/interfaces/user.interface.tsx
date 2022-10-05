@@ -22,3 +22,8 @@ export interface IAccount {
   phone?: string;
   level?: Level;
 }
+
+export interface IGetUsers {
+  count: number;
+  users: IUser[];
+}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IUser } from "../interfaces";
+import { IGetUsers, IUser } from "../interfaces";
 
-export const useFetchUsers = (): any => {
+export const useFetchUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
+  const [countUsers, setCountUsers] = useState(0);
   const [isLoading, setIsLoading] = useState(true); // Inférence
   const [error, setError] = useState("");
 
@@ -13,10 +14,11 @@ export const useFetchUsers = (): any => {
       setIsLoading(true);
       setError("");
       try {
-        const res = await axios.get("/users");
+        const res = await axios.get<IGetUsers>("/users");
         if (res.status === 200 && !cancel) {
           const data = res.data;
           setUsers(data.users);
+          setCountUsers(data.count);
         } else if (!cancel) {
           setError("Ooops, erreur res.status !!!");
         }
@@ -29,5 +31,5 @@ export const useFetchUsers = (): any => {
     fetchData();
     return () => (cancel = true);
   }, []);
-  return [[users, setUsers], isLoading, error];
+  return [[users, setUsers], countUsers, isLoading, error] as const;
 };
