@@ -35,7 +35,10 @@ function Header(props: IHeaderProps) {
           </button>
         </Link>
         <Link to="/login">
-          <button className="btn btn-primary">Connexion</button>
+          <button className="mr-15 btn btn-primary">Connexion</button>
+        </Link>
+        <Link to="/signup">
+          <button className="btn btn-primary">Inscription</button>
         </Link>
       </ul>
       <FontAwesomeIcon

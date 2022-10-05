@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import "./conf/axios-conf";
 import Outings from "./pages/Outings/Outings";
 import Users from "./pages/Users/Users";
+import Signup from "./pages/Signup/Signup";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="outings" element={<Outings />} />
           <Route path="users" element={<Users />} />
           <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Routes>
       </div>
       <Footer />
