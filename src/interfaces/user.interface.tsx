@@ -37,3 +37,8 @@ export interface IUserSignup {
   city?: string;
   phone?: string;
 }
+
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
