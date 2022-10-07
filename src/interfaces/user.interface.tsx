@@ -27,3 +27,13 @@ export interface IGetUsers {
   count: number;
   users: IUser[];
 }
+
+export interface IUserSignup {
+  username: string;
+  email: string;
+  password: string;
+  firstname?: string;
+  lastname?: string;
+  city?: string;
+  phone?: string;
+}
