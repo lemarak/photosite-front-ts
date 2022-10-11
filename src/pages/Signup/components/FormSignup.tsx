@@ -4,8 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IUserSignup } from "../../../interfaces";
 import styles from "./FormSignup.module.scss";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-interface IFormSignupProps {}
+interface IFormSignupProps {
+  setUser: (token: string, slug: string) => void;
+}
 interface IFormInputs extends IUserSignup {
   genericError: string;
 }
@@ -27,7 +30,8 @@ const schema = yup
   })
   .required();
 
-function FormSignup(props: IFormSignupProps) {
+function FormSignup({ setUser }: IFormSignupProps) {
+  let navigate = useNavigate();
   const defaultValues: IUserSignup = {
     username: "",
     email: "",
@@ -52,6 +56,11 @@ function FormSignup(props: IFormSignupProps) {
       const response = await axios.post("/user/signup", { ...data });
       if (response.status === 200) {
         reset(defaultValues);
+        setUser(
+          response.data.newUser.token,
+          response.data.newUser.account.slug
+        );
+        navigate("/");
       } else {
         setError("genericError", {
           type: "generic",
@@ -59,9 +68,17 @@ function FormSignup(props: IFormSignupProps) {
         });
       }
     } catch (error: any) {
+      const errorStatus = error?.response?.status || null;
+      let errorMessage: string;
+      if (errorStatus === 409) {
+        errorMessage = error.response.data.message || null;
+      } else {
+        errorMessage = "Erreur connexion";
+      }
+
       setError("genericError", {
         type: "generic",
-        message: error.message,
+        message: errorMessage,
       });
     }
   };

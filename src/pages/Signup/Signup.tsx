@@ -1,13 +1,15 @@
 import FormSignup from "./components/FormSignup";
 import styles from "./Signup.module.scss";
 
-export interface ISignupProps {}
+interface ISignupProps {
+  setUser: (token: string, slug: string) => void;
+}
 
-function Signup(props: ISignupProps) {
+function Signup({ setUser }: ISignupProps) {
   return (
     <div>
       <h1 className="mb-20">Inscription</h1>
-      <FormSignup />
+      <FormSignup setUser={setUser} />
     </div>
   );
 }

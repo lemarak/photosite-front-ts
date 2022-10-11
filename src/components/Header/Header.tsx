@@ -12,7 +12,7 @@ interface IHeaderProps {
   slug: string | null;
 }
 
-function Header({ token, slug }: IHeaderProps) {
+function Header({ token, slug, setUser }: IHeaderProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -38,7 +38,7 @@ function Header({ token, slug }: IHeaderProps) {
             <span>Membres</span>
           </button>
         </Link>
-        {!token && (
+        {!token ? (
           <>
             <Link to="/login">
               <button className="mr-15 btn btn-primary">Connexion</button>
@@ -47,6 +47,15 @@ function Header({ token, slug }: IHeaderProps) {
               <button className="btn btn-primary">Inscription</button>
             </Link>
           </>
+        ) : (
+          <button
+            onClick={() => {
+              setUser("", "");
+            }}
+            className="btn btn-primary"
+          >
+            Se déconnecter
+          </button>
         )}
       </ul>
       <FontAwesomeIcon
