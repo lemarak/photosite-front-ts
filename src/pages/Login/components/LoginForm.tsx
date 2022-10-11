@@ -4,8 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IUserLogin } from "../../../interfaces";
 import styles from "./LoginForm.module.scss";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-interface ILoginFormProps {}
+interface ILoginFormProps {
+  setUser: (token: string, slug: string) => void;
+}
 
 interface IFormInputs extends IUserLogin {
   genericError: string;
@@ -24,7 +27,8 @@ const schema = yup
   })
   .required();
 
-function LoginForm(props: ILoginFormProps) {
+function LoginForm({ setUser }: ILoginFormProps) {
+  let navigate = useNavigate();
   const defaultValues: IUserLogin = {
     email: "",
     password: "",
@@ -45,6 +49,8 @@ function LoginForm(props: ILoginFormProps) {
       const response = await axios.post("/user/login", { ...data });
       if (response.status === 200) {
         reset(defaultValues);
+        setUser(response.data.user.token, response.data.user.account.slug);
+        navigate("/");
       } else {
         setError("genericError", {
           type: "generic",
@@ -52,15 +58,22 @@ function LoginForm(props: ILoginFormProps) {
         });
       }
     } catch (error: any) {
+      const errorStatus = error?.response?.status || null;
+      let errorMessage: string;
+      if (errorStatus === 403) {
+        errorMessage = error.response.data.message || null;
+      } else {
+        errorMessage = "Erreur connexion";
+      }
       setError("genericError", {
         type: "generic",
-        message: error.message,
+        message: errorMessage,
       });
     }
   };
   return (
     <form
-      className={`d-flex flex-column   card p-20 ${styles.signupForm}`}
+      className={`d-flex flex-column   card p-20 ${styles.loginForm}`}
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="mb-20">

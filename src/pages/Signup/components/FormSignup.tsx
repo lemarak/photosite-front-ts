@@ -47,7 +47,6 @@ function FormSignup(props: IFormSignupProps) {
   } = useForm<IFormInputs>({ defaultValues, resolver: yupResolver(schema) });
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data, e) => {
-    console.log(data);
     try {
       clearErrors();
       const response = await axios.post("/user/signup", { ...data });

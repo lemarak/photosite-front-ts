@@ -6,9 +6,13 @@ import { useState } from "react";
 import HeaderMenu from "./components/HeaderMenu";
 import { Link } from "react-router-dom";
 
-export interface IHeaderProps {}
+interface IHeaderProps {
+  token: string | null;
+  setUser: (token: string, slug: string) => void;
+  slug: string | null;
+}
 
-function Header(props: IHeaderProps) {
+function Header({ token, slug }: IHeaderProps) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -34,12 +38,16 @@ function Header(props: IHeaderProps) {
             <span>Membres</span>
           </button>
         </Link>
-        <Link to="/login">
-          <button className="mr-15 btn btn-primary">Connexion</button>
-        </Link>
-        <Link to="/signup">
-          <button className="btn btn-primary">Inscription</button>
-        </Link>
+        {!token && (
+          <>
+            <Link to="/login">
+              <button className="mr-15 btn btn-primary">Connexion</button>
+            </Link>
+            <Link to="/signup">
+              <button className="btn btn-primary">Inscription</button>
+            </Link>
+          </>
+        )}
       </ul>
       <FontAwesomeIcon
         onClick={() => setShowMenu(!showMenu)}
