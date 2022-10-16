@@ -12,7 +12,7 @@ interface IHeaderProps {
   slug: string | null;
 }
 
-function Header({ token, slug, setUser }: IHeaderProps) {
+function Header({ token, slug, setUser }: IHeaderProps): JSX.Element {
   const [showMenu, setShowMenu] = useState(false);
 
   return (

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Outlet, useRoutes } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import styles from "./App.module.scss";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
+
 import Gallery from "./pages/Gallery/Gallery";
 import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
@@ -13,6 +12,8 @@ import "./conf/axios-conf";
 import Outings from "./pages/Outings/Outings";
 import Users from "./pages/Users/Users";
 import Signup from "./pages/Signup/Signup";
+import MainLayout from "./components/MainLayout/MainLayout";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 function App() {
   const [token, setToken] = useState(Cookies.get("token") || null);
@@ -32,20 +33,26 @@ function App() {
     }
   };
 
+  const mainRoutes = {
+    path: "/",
+    element: <MainLayout token={token} setUser={setUser} slug={slug} />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Homepage /> },
+      { path: "/gallery", element: <Gallery /> },
+      { path: "/outings", element: <Outings /> },
+      { path: "/users", element: <Users /> },
+      { path: "/login", element: <Login setUser={setUser} /> },
+      { path: "/signup", element: <Signup setUser={setUser} /> },
+    ],
+  };
+  const routing = useRoutes([mainRoutes]);
+
   return (
     <div className={`d-flex flex-column ${styles.appContainer}`}>
-      <Header token={token} setUser={setUser} slug={slug} />
-      <div className="flex-fill container d-flex flex-column p-20">
-        <Routes>
-          <Route index element={<Homepage />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="outings" element={<Outings />} />
-          <Route path="users" element={<Users />} />
-          <Route path="login" element={<Login setUser={setUser} />} />
-          <Route path="signup" element={<Signup setUser={setUser} />} />
-        </Routes>
-      </div>
-      <Footer />
+      {routing}
+
+      <Outlet />
     </div>
   );
 }
